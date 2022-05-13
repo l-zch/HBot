@@ -36,8 +36,9 @@ class ViewField:
     self.embed.set_footer(text = text, icon_url=icon_url)
     return self
   
-  def add_image(self, cover_url):
-    self.embed.set_image(url = cover_url)
+  def add_image(self, image_url):
+    print(image_url)
+    self.embed.set_image(url = image_url)
     return self
 
   def create(self):

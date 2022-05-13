@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from discord.ext import commands
 from discord import Interaction
 from discord.ext.commands import Context
@@ -6,19 +5,11 @@ from json import loads
 
 from requests import get
 from bs4 import BeautifulSoup
+from Service.ButtonData import ButtonData
 
 from Service.ViewCreator import NViewCreator, ViewCreator
 
 
-def get_page(index, page):
-  return f'https://i3.nhentai.net/galleries/{index}/{page}.jpg'
-
-
-@dataclass
-class ComicButton:
-  comic: str
-  type: str
-  data: list
 
 class nCommands(commands.Cog):
 
@@ -27,18 +18,19 @@ class nCommands(commands.Cog):
 
   @commands.Cog.listener()
   async def on_interaction(self, interaction: Interaction):
-    print(interaction.data)
-    data = loads(interaction.custom_id)
-    if data["type"] == "comic_button":
-      button = ComicButton(**data)
-      Creator: ViewCreator = { "N": NViewCreator }[button.comic]
-      number, page = button.data
 
-      if button.type == "mainpage":
-        embed, view = Creator.create_mainpage_view(number)
-      else:
-        embed, view = Creator.create_reading_view(number, page)
-      await interaction.message.edit(embed = embed, view = view)
+    data = ButtonData.from_json(interaction.custom_id)
+
+    creator = {"N": NViewCreator}[data["comic"]]
+
+    if data.type == "main_page":
+      embed, view = creator.create_mainpage_view(data["number"])
+    elif data.type == "start_to_read":
+      embed, view = creator.create_reading_view(data["number"], 1)
+    elif data.type == "conductor":
+      embed, view = creator.create_reading_view(data["number"], data["page"])
+
+    await interaction.message.edit(embed = embed, view = view)
 
   @commands.command()
   async def n(self, ctx, number:str):

@@ -1,7 +1,12 @@
+from dataclasses import dataclass
 from discord import ButtonStyle, SelectOption
 from discord.ui import View, Button, Select
 from typing import List
+from json import dumps
+
+from Service.ButtonData import ButtonData
 from Service.Label import Label
+
 
 class Dashboard:
 
@@ -9,24 +14,23 @@ class Dashboard:
     self.view = View()
     self.options = []
 
-  def add_conductor(self, number, page, pages):
-    button = Button(
-      label = "<<",
-      style = ButtonStyle.success,
-      custom_id = 0)
-    button = Button(
-      label = "<-",
-      style = ButtonStyle.success,
-      custom_id = page-1)
-    button = Button(
-      label = "->",
-      style = ButtonStyle.success,
-      custom_id = page+1)
-    button = Button(
-      label = ">>",
-      style = ButtonStyle.success,
-      custom_id = label.url)
+  def add_conductor(self, buttons_data: List[ButtonData]):
+    for data in buttons_data:
+      self.view.add_item(
+        Button(
+          label = data.label,
+          style = ButtonStyle.success,
+          custom_id = data.to_json(),
+          disabled = data.disabled))
     return self
+  
+  def add_start_button(self, data: ButtonData):
+    self.view.add_item(
+      Button(
+        label = data.label,
+        style = ButtonStyle.success,
+        custom_id = data.to_json(),
+        disabled = False))
 
   def add_quick_search(self, emoji:str, labels: List[Label]):
     if labels:

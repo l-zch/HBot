@@ -3,11 +3,12 @@ from requests import get
 from bs4 import BeautifulSoup
 from pandas import Timestamp
 from re import search, compile
+from functools import cache
 
 from Service.Label import Label
 
 
-class Clawer:
+class Crawler:
 
   def get_repository_index(self) -> str:
     pass
@@ -31,7 +32,7 @@ class Clawer:
     pass
 
 
-class NClawer(Clawer):
+class NCrawler(Crawler):
 
   def __init__(self, number):
     r = get(f'https://nhentai.net/g/{number}/')
@@ -41,11 +42,11 @@ class NClawer(Clawer):
     self._soup = soup
     self._title = soup.select(".title")
     self._tag = [ *soup.find('section', id="tags").children ]
-    self._the_cover_img = soup.select_one('div#cover img')
+    self.cover_src = soup.select_one('div#cover img')['data-src']
   
   def get_page_url(self, page):
-    repository_index = search('\d{6}\d*', self._the_cover_img['data-src']).group(0)
-    f"https://i3.nhentai.net/galleries/{repository_index}/{page}.jpg"
+    repository_index = search('\d{6}\d*', self.cover_src).group(0)
+    return f"https://i7.nhentai.net/galleries/{repository_index}/{page}.{self.cover_src[-3:]}"
 
   def get_labels(self) -> List[Label]:
     if not self.labels:
@@ -76,10 +77,10 @@ class NClawer(Clawer):
     return  f'<t:{timestamp:.0f}:R>'
   
   def get_pages(self):
-    return int(self._tag[-1].find("span").text)
+    return int(self._tag[-2].find("span").text)
 
   def get_cover_url(self):
-    return self._the_cover_img['data-src']
+    return self.cover_src
   
   def get_likes_count(self):
     return self._soup.find("span", text = compile(r'\([0-9]*\)')).text[1:-1]

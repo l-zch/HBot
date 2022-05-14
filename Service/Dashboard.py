@@ -32,7 +32,7 @@ class Dashboard:
         custom_id = data.to_json(),
         disabled = False))
 
-  def add_quick_search(self, emoji:str, labels: List[Label]):
+  def add_quick_search(self, emoji: str, labels: List[Label]):
     if labels:
       for label in labels:
         self.options.append(

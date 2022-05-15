@@ -49,7 +49,7 @@ class NCrawler(Crawler):
     self.cover_src = soup.select_one('div#cover img')['data-src']
 
   def get_page_url(self, page):
-    repository_index = search('\d{5}\d*', self.cover_src).group(0)
+    repository_index = search('(\d+)/', self.cover_src).group(0)
     return f"https://i7.nhentai.net/galleries/{repository_index}/{page}.{self.cover_src[-3:]}"
   
   def get_labels(self) -> List[Label]:

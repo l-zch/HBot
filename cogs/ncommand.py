@@ -1,5 +1,5 @@
+from discord import Interaction, Webhook
 from discord.ext import commands
-from discord import Interaction
 from discord.ext.commands import Context
 from json import loads
 
@@ -22,9 +22,9 @@ class nCommands(commands.Cog):
     data = ButtonData.from_json(interaction.custom_id)
 
     creator = {"N": NViewCreator}[data["comic"]]
-
+    is_private = bool(interaction.message.webhook_id)
     if data.type == "main_page":
-      embed, view = creator.create_mainpage_view(data["number"], private =  bool(interaction.message.webhook_id))
+      embed, view = creator.create_mainpage_view(data["number"], private = is_private)
     elif data.type == "start_to_read":
       embed, view = creator.create_reading_view(data["number"], 1)
     elif data.type == "private_read":
@@ -36,7 +36,14 @@ class nCommands(commands.Cog):
     elif data.type == "conductor":
       embed, view = creator.create_reading_view(data["number"], data["page"])
 
-    await interaction.edit_original_message(embed = embed, view = view)
+    if is_private:
+      try:
+        await interaction.edit_original_message(embed = embed, view = view)
+      except:
+        pass
+    else:
+      await interaction.message.edit(embed = embed, view = view)
+
 
   @commands.command()
   async def n(self, ctx: Context, number:str):

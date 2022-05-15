@@ -37,7 +37,6 @@ class ViewField:
     return self
   
   def add_image(self, image_url):
-    print(image_url)
     self.embed.set_image(url = image_url)
     return self
 

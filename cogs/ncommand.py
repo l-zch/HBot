@@ -24,7 +24,7 @@ class nCommands(commands.Cog):
     creator = {"N": NViewCreator}[data["comic"]]
 
     if data.type == "main_page":
-      embed, view = creator.create_mainpage_view(data["number"], public = bool(interaction.message.webhook_id))
+      embed, view = creator.create_mainpage_view(data["number"], private =  bool(interaction.message.webhook_id))
     elif data.type == "start_to_read":
       embed, view = creator.create_reading_view(data["number"], 1)
     elif data.type == "private_read":

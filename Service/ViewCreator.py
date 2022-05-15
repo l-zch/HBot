@@ -30,7 +30,7 @@ class ComicButton:
 class NViewCreator:
 
   @staticmethod
-  def create_mainpage_view(number:str, public = True):
+  def create_mainpage_view(number:str, private = False):
 
     Crawler = NCrawler(number)
     emojis = Repository.emojis
@@ -45,7 +45,7 @@ class NViewCreator:
     button_data["comic"] = "N"
 
     button_data2 = ButtonData("私密閱讀", "private_read")
-    button_data2.disabled = not public
+    button_data2.disabled = private
     button_data2["number"] = number
     button_data2["comic"] = "N"
     dashboard.add_start_button(button_data).add_private_read_button(button_data2)

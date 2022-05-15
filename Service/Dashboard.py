@@ -13,6 +13,15 @@ class Dashboard:
   def __init__(self):
     self.view = View()
     self.options = []
+  
+  def add_main_page_button(self, data: ButtonData):
+    self.view.add_item(
+      Button(
+        label = data.label,
+        style = ButtonStyle.success,
+        custom_id = data.to_json(),
+        disabled = False))
+    return self
 
   def add_conductor(self, buttons_data: List[ButtonData]):
     for data in buttons_data:
@@ -31,6 +40,7 @@ class Dashboard:
         style = ButtonStyle.success,
         custom_id = data.to_json(),
         disabled = False))
+    return self
 
   def add_quick_search(self, emoji: str, labels: List[Label]):
     if labels:

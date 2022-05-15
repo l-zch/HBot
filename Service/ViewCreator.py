@@ -43,10 +43,10 @@ class NViewCreator:
     button_data["number"] = number
     button_data["comic"] = "N"
     dashboard.add_start_button(button_data)
-  
+    print(Crawler.get_labels_map())
     for key, labels in Crawler.get_labels_map().items():
       dashboard.add_quick_search(emojis[key], labels)
-      view_field.add_quick_search(f'────  {emojis[key]} {name_map[key]}  ────', labels)
+      view_field.add_labels(f'────  {emojis[key]} {name_map[key]}  ────', labels)
 
     return (
       view_field
@@ -62,7 +62,7 @@ class NViewCreator:
   def create_reading_view(number:str, page:int):
     Crawler = NCrawler(number)
     pages = Crawler.get_pages()
-    labels = ["<<", "<-", "->", ">>"]
+    labels = ["<<", "<", ">", ">>"]
     button_data = [ButtonData(label, "conductor") for label in labels]
   
     for i,data in enumerate(button_data):
@@ -81,8 +81,11 @@ class NViewCreator:
     if page < pages:
       set_page(button_data[2], page+1)
       set_page(button_data[3], pages)
-
-    dashboard = Dashboard().add_conductor(button_data)
+    
+    d = ButtonData("->", "main_page")
+    d["number"] = number
+    d["comic"] = "N"
+    dashboard = Dashboard().add_conductor(button_data).add_main_page_button(d)
 
     return ViewField().add_image(
       Crawler.get_page_url(page)

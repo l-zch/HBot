@@ -21,4 +21,6 @@ async def on_ready():  # When the bot is ready
         emojis[emoji.name] = str(emoji)
     Repository.add_assets("emojis", emojis)
 
-bot.run("OTUwMzgxODc0ODI2NjAwNDQ4.GX20Mx.S5BW8yfUAfl26hYEjPYgciI2Glw8inigTrKFT0")  # Starts the bot
+bot.run("OTc1MDU0NjY4ODQzNjA2MDQ3.Gc0MSY.jHs6EDh7SVm5PUBOrrFcgUhaY9pKCJv2yNg3sA")  # Starts the bot
+
+# OTUwMzgxODc0ODI2NjAwNDQ4.GX20Mx.S5BW8yfUAfl26hYEjPYgciI2Glw8inigTrKFT0

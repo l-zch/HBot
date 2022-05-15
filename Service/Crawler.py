@@ -55,7 +55,7 @@ class NCrawler(Crawler):
   def get_labels(self) -> List[Label]:
     labels = []
     for _tag in self._tag[:-2]:
-      self.labels.append([
+      labels.append([
         Label(
           name = a.select_one("span.name").text,
           amount = a.select_one("span.count").text,

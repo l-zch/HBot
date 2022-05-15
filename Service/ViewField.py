@@ -21,7 +21,7 @@ class ViewField:
     self.embed.description = subtitle
     return self
 
-  def add_quick_search(self, name:str, labels: List[Label]):
+  def add_labels(self, name:str, labels: List[Label]):
     if labels:
       info = ""
       for label in labels:

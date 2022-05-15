@@ -30,7 +30,8 @@ class ComicButton:
 class NViewCreator:
 
   @staticmethod
-  def create_mainpage_view(number:str):
+  def create_mainpage_view(number:str, public = True):
+
     Crawler = NCrawler(number)
     emojis = Repository.emojis
     translated = ['改編','角色', '標籤', '繪師','團隊', '語言', '類別']
@@ -42,7 +43,13 @@ class NViewCreator:
     button_data = ButtonData("開始閱讀", "start_to_read")
     button_data["number"] = number
     button_data["comic"] = "N"
-    dashboard.add_start_button(button_data)
+
+    button_data2 = ButtonData("私密閱讀", "private_read")
+    button_data2.disabled = not public
+    button_data2["number"] = number
+    button_data2["comic"] = "N"
+    dashboard.add_start_button(button_data).add_private_read_button(button_data2)
+
     print(Crawler.get_labels_map())
     for key, labels in Crawler.get_labels_map().items():
       dashboard.add_quick_search(emojis[key], labels)
@@ -89,4 +96,4 @@ class NViewCreator:
 
     return ViewField().add_image(
       Crawler.get_page_url(page)
-    ).add_footer(f"{page}/{Crawler.get_pages()}", "https://cdn-icons-png.flaticon.com/512/1057/1057565.png").create(), dashboard.create()
+    ).add_footer(f"{page}/{Crawler.get_pages()}", "https://cdn-icons.flaticon.com/png/512/4946/premium/4946163.png?token=exp=1652579066~hmac=5c1687e73fd0d56e05d4e8603e3cbaf2").create(), dashboard.create()

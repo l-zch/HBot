@@ -42,6 +42,15 @@ class Dashboard:
         disabled = False))
     return self
 
+  def add_private_read_button(self, data: ButtonData):
+    self.view.add_item(
+      Button(
+        label = data.label,
+        style = ButtonStyle.success,
+        custom_id = data.to_json(),
+        disabled = data.disabled))
+    return self
+
   def add_quick_search(self, emoji: str, labels: List[Label]):
     if labels:
       for label in labels:

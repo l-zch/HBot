@@ -24,18 +24,25 @@ class nCommands(commands.Cog):
     creator = {"N": NViewCreator}[data["comic"]]
 
     if data.type == "main_page":
-      embed, view = creator.create_mainpage_view(data["number"])
+      print(interaction.message.__dict__)
+      embed, view = creator.create_mainpage_view(data["number"], public = bool(interaction.message))
     elif data.type == "start_to_read":
       embed, view = creator.create_reading_view(data["number"], 1)
+    elif data.type == "private_read":
+      embed, view = creator.create_reading_view(data["number"], 1)
+      await interaction.message.delete()
+      await interaction.followup.send(embed = embed, view = view, ephemeral = True)
+      return
+
     elif data.type == "conductor":
       embed, view = creator.create_reading_view(data["number"], data["page"])
 
-    await interaction.message.edit(embed = embed, view = view)
+    await interaction.edit_original_message(embed = embed, view = view)
 
   @commands.command()
-  async def n(self, ctx, number:str):
+  async def n(self, ctx: Context, number:str):
     embed, view = NViewCreator.create_mainpage_view(number)
-    await ctx.send(embed = embed, view = view)
+    await ctx.reply(embed = embed, view = view)
 
   @commands.command()
   async def nsearch(self, ctx, key:str):

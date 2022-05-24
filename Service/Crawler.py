@@ -1,11 +1,11 @@
 from typing import List, Dict
-from requests import get
-from bs4 import BeautifulSoup
 from pandas import Timestamp
 from re import search, compile
-
-from Service.Label import Label
 from functools import lru_cache
+
+from Service.WebDriver import WebDriver
+from Service.Label import Label
+
 
 class Crawler:
 
@@ -39,8 +39,7 @@ class NCrawler(Crawler):
 
   @lru_cache
   def __init__(self, number):
-    r = get(f'https://nhentai.net/g/{number}/', headers={"Cache-Control": "max-age=60, immutable"})
-    soup = BeautifulSoup(r.text, 'html.parser')
+    soup = WebDriver.get_soup(f'https://nhentai.net/g/{number}/')
     self.labels = []
     self.info_fields = {}
     self._soup = soup

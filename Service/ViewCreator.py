@@ -44,11 +44,11 @@ class NViewCreator:
     button_data["number"] = number
     button_data["comic"] = "N"
 
-    button_data2 = ButtonData("私人模式", "private_read")
+    button_data2 = ButtonData("私人模式", "private_mode")
     button_data2.disabled = private
     button_data2["number"] = number
     button_data2["comic"] = "N"
-    dashboard.add_start_button(button_data).add_private_read_button(button_data2)
+    dashboard.add_start_button(button_data).add_private_mode_button(button_data2)
 
     for key, labels in Crawler.get_labels_map().items():
       dashboard.add_quick_search(emojis[key], labels)

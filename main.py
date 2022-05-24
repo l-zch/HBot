@@ -1,11 +1,15 @@
 from discord.ext import commands
+from discord import Activity
 import glob
 from discord import Intents
 from utils.assets import Repository
+from random import choices
+from asyncio import sleep
+
 
 intents = Intents.all()
 bot = commands.Bot(command_prefix='?', intents=intents)
-
+activities = (('你', 0), ('本子', 3), ('你澀澀', 3), ('澀澀', 1))
 
 @bot.event 
 async def on_ready():  # When the bot is ready
@@ -21,6 +25,10 @@ async def on_ready():  # When the bot is ready
         emojis[emoji.name] = str(emoji)
     Repository.add_assets("emojis", emojis)
 
-bot.run("OTc1MDU0NjY4ODQzNjA2MDQ3.Gc0MSY.jHs6EDh7SVm5PUBOrrFcgUhaY9pKCJv2yNg3sA")  # Starts the bot
+    while not bot.is_closed():
+        name, type = choices(activities)[0]
+        await bot.change_presence(activity=Activity(name=name, type=type))
+        await sleep(10)
 
-# OTUwMzgxODc0ODI2NjAwNDQ4.GX20Mx.S5BW8yfUAfl26hYEjPYgciI2Glw8inigTrKFT0
+bot.run("OTc1MDU0NjY4ODQzNjA2MDQ3.G7IADe.igLscm7mzfiAZSirrTMq98xdVZfF73oiJ59nEs")  # Starts the bot
+

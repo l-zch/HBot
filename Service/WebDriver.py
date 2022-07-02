@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 from os import system
 from time import sleep
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.common.exceptions import NoSuchWindowException
 
 class WebDriver:
     driver = None
@@ -26,9 +25,11 @@ class WebDriver:
         try:
             cls.driver.get(url)
         except:
+            system("taskkill /F /IM chrome* /T")
             cls.create_driver()
             cls.driver.get(url)
         soup = BeautifulSoup(cls.driver.page_source, "html.parser")
+
         if soup.find("title").text == "Just a moment...":
             print("bruh")
             cls._solve_challenge()

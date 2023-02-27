@@ -5,7 +5,11 @@ from discord import Intents
 from utils.assets import Repository
 from random import choices
 from asyncio import sleep
-from os import environ
+from os import getenv
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 intents = Intents.all()
 bot = commands.Bot(command_prefix='?', intents=intents)
@@ -30,6 +34,6 @@ async def on_ready():  # When the bot is ready
         await bot.change_presence(activity=Activity(name=name, type=type))
         await sleep(10)
 
-token = environ.get("TOKEN") 
+token = getenv("TOKEN") 
 bot.run(token)  # Starts the bot
 

@@ -7,16 +7,17 @@ from webdriver_manager.chrome import ChromeDriverManager
 from sys import platform
 
 
-if platform == 'win32': 
+if platform == 'win32':
     system_commands = ["start chrome --remote-debugging-port=9222",
-              ChromeDriverManager().install(),
-              "start chrome https://nhentai.net",
-              "taskkill /F /IM chrome* /T"],
+                       ChromeDriverManager().install(),
+                       "start chrome https://nhentai.net",
+                       "taskkill /F /IM chrome* /T"]
+
 elif platform == 'linux':
-    system_commands =  ["chromium-browser --disable-infobars --disable-gpu --remote-debugging-port=9222 'https://nhentai.net' &",
-              "/usr/lib/chromium-browser/chromedriver",
-              "chromium-browser 'https://nhentai.net'",
-              "killall chromium-browse"]
+    system_commands = ["chromium-browser --disable-infobars --disable-gpu --remote-debugging-port=9222 'https://nhentai.net' &",
+                       "/usr/lib/chromium-browser/chromedriver",
+                       "chromium-browser 'https://nhentai.net'",
+                       "killall chromium-browse"]
 
 
 class WebDriver:
@@ -24,13 +25,14 @@ class WebDriver:
 
     @classmethod
     def create_driver(cls):
-        
+
         system(system_commands[0])
 
         options = Options()
         options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 
-        cls.driver = webdriver.Chrome(system_commands[1], options=options, keep_alive=True)
+        cls.driver = webdriver.Chrome(
+            system_commands[1], options=options, keep_alive=True)
 
     @staticmethod
     def _solve_challenge():

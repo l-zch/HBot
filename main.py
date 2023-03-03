@@ -15,7 +15,8 @@ intents = Intents.all()
 bot = commands.Bot(command_prefix='?', intents=intents)
 activities = (('你', 0), ('本子', 3), ('你澀澀', 3), ('澀澀', 1))
 
-@bot.event 
+
+@bot.event
 async def on_ready():  # When the bot is ready
     print("I'm in")
     print(bot.user)  # Prints the bot's username and identifier
@@ -34,6 +35,5 @@ async def on_ready():  # When the bot is ready
         await bot.change_presence(activity=Activity(name=name, type=type))
         await sleep(10)
 
-token = getenv("TOKEN") 
+token = getenv("TOKEN")
 bot.run(token)  # Starts the bot
-

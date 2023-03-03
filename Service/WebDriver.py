@@ -6,16 +6,18 @@ from time import sleep
 from webdriver_manager.chrome import ChromeDriverManager
 from sys import platform
 
-system_commands = {
-    'win32': ["start chrome --remote-debugging-port=9222",
+
+if platform == 'win32': 
+    system_commands = ["start chrome --remote-debugging-port=9222",
               ChromeDriverManager().install(),
               "start chrome https://nhentai.net",
               "taskkill /F /IM chrome* /T"],
-    'linux': ["chromium-browser --disable-infobars --disable-gpu --remote-debugging-port=9222 'https://nhentai.net' &",
+elif platform == 'linux':
+    system_commands =  ["chromium-browser --disable-infobars --disable-gpu --remote-debugging-port=9222 'https://nhentai.net' &",
               "/usr/lib/chromium-browser/chromedriver",
               "chromium-browser 'https://nhentai.net'",
               "killall chromium-browse"]
-}[platform]
+
 
 class WebDriver:
     driver = None
